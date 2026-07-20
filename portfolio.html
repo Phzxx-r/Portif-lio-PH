@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PH Tech — Portfólio</title>
+<style>
+  :root{
+    --ink: #15181D;
+    --paper: #FAFAF8;
+    --line: #E4E3DC;
+    --indigo: #2D2A6E;
+    --indigo-light: #4A45A8;
+    --lime: #C9E265;
+    --coral: #FF6B5A;
+    --gray: #6B6F76;
+    --white: #FFFFFF;
+    --font-display: ui-sans-serif, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family: var(--font-display); background: var(--paper); color: var(--ink); }
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  nav{ display:flex; justify-content:space-between; align-items:center; padding: 24px; max-width: 1080px; margin: 0 auto; }
+  .logo{ font-weight: 800; font-size: 18px; letter-spacing: -0.01em; }
+  .logo .dot{ color: var(--coral); }
+  .nav-cta{ background: var(--ink); color: var(--white); padding: 10px 20px; border-radius: 8px; text-decoration:none; font-size: 13.5px; font-weight: 700; }
+
+  /* HERO */
+  .hero{ padding: 50px 24px 30px 24px; max-width: 1080px; margin: 0 auto; }
+  .hero-badge{ display:inline-flex; align-items:center; gap: 8px; background: var(--white); border: 1px solid var(--line); padding: 7px 14px; border-radius: 30px; font-size: 12.5px; font-weight: 600; color: var(--gray); margin-bottom: 22px; }
+  .hero-badge .pulse{ width: 7px; height:7px; border-radius: 50%; background: #3EBD6E; }
+  h1{ font-size: clamp(34px, 5.6vw, 58px); font-weight: 800; line-height: 1.02; letter-spacing: -0.02em; max-width: 780px; }
+  h1 .accent{ color: var(--indigo); }
+  .hero-sub{ font-size: 17px; color: var(--gray); max-width: 520px; margin: 20px 0 30px 0; line-height: 1.55; }
+  .cta-row{ display:flex; gap: 14px; flex-wrap: wrap; align-items:center; }
+  .btn-dark{ background: var(--ink); color: var(--white); padding: 15px 28px; border-radius: 9px; text-decoration:none; font-weight: 700; font-size: 14.5px; }
+  .btn-note{ font-size: 13.5px; color: var(--gray); }
+
+  /* STRIP STATS - signature */
+  .stat-strip{ display:flex; gap: 0; border: 1px solid var(--line); border-radius: 12px; overflow:hidden; background: var(--white); margin-top: 44px; }
+  .stat{ flex:1; padding: 20px 22px; border-right: 1px solid var(--line); }
+  .stat:last-child{ border-right:none; }
+  .stat-num{ font-size: 26px; font-weight: 800; color: var(--indigo); }
+  .stat-label{ font-size: 12.5px; color: var(--gray); margin-top: 2px; }
+
+  /* PROJECTS */
+  section{ padding: 60px 24px; max-width: 1080px; margin: 0 auto; }
+  .section-head{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 30px; flex-wrap: wrap; gap: 10px; }
+  .section-tag{ font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--coral); font-weight: 700; }
+  .section-title{ font-size: 30px; font-weight: 800; margin-top: 6px; letter-spacing: -0.01em; }
+
+  .project-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 22px; }
+  .project-card{
+    background: var(--white); border: 1px solid var(--line); border-radius: 16px; overflow:hidden;
+    text-decoration:none; color: var(--ink); display:block; transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .project-card:hover{ transform: translateY(-4px); box-shadow: 0 14px 34px rgba(21,24,29,0.09); }
+  .project-preview{ height: 170px; position:relative; overflow:hidden; }
+  .project-preview.trainer{ background: linear-gradient(135deg, #1B2430, #E8452C 130%); }
+  .project-preview.psico{ background: linear-gradient(135deg, #33475B, #7C9885 130%); }
+  .project-preview.nails{ background: linear-gradient(135deg, #2B1320, #D4AF6A 130%); }
+  .preview-tag{ position:absolute; top:14px; left:14px; background: rgba(255,255,255,0.16); backdrop-filter: blur(4px); color:white; font-size: 11.5px; padding: 5px 12px; border-radius: 20px; font-weight:600; }
+  .preview-mock{ position:absolute; bottom: -20px; right: -10px; width: 70%; height: 80px; background: rgba(255,255,255,0.9); border-radius: 8px 8px 0 0; box-shadow: 0 -6px 20px rgba(0,0,0,0.15); }
+  .project-body{ padding: 20px 22px; }
+  .project-niche{ font-family: var(--font-mono); font-size: 11.5px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.06em; }
+  .project-name{ font-size: 19px; font-weight: 800; margin: 6px 0 8px 0; }
+  .project-desc{ font-size: 13.5px; color: var(--gray); line-height: 1.5; }
+  .project-link{ display:flex; align-items:center; gap: 6px; margin-top: 14px; font-size: 13.5px; font-weight: 700; color: var(--indigo); }
+
+  /* PROCESS */
+  .process-list{ counter-reset: step; }
+  .process-item{ display:flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--line); align-items:flex-start; }
+  .process-item:last-child{ border-bottom:none; }
+  .process-num{ font-family: var(--font-mono); font-size: 14px; font-weight: 800; color: var(--coral); background: var(--white); border: 1.5px solid var(--line); width: 36px; height:36px; border-radius: 10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .process-title{ font-weight: 700; font-size: 16px; }
+  .process-desc{ font-size: 13.5px; color: var(--gray); margin-top: 4px; }
+
+  /* CTA */
+  .final-cta{ background: var(--indigo); color: var(--white); border-radius: 20px; text-align:center; padding: 60px 30px; margin: 0 24px 60px 24px; }
+  .final-cta h2{ font-size: clamp(26px,3.6vw,38px); font-weight: 800; margin-bottom: 14px; letter-spacing: -0.01em; }
+  .final-cta p{ color: #C6C3EC; margin-bottom: 26px; font-size: 15.5px; }
+  .btn-lime{ background: var(--lime); color: var(--ink); padding: 15px 30px; border-radius: 9px; text-decoration:none; font-weight: 800; font-size: 14.5px; }
+
+  footer{ text-align:center; padding: 30px 24px; font-size: 13px; color: var(--gray); }
+
+  @media (max-width: 640px){
+    section{ padding: 40px 20px; }
+    .stat-strip{ flex-direction: column; }
+    .stat{ border-right:none; border-bottom: 1px solid var(--line); }
+    .stat:last-child{ border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">PH<span class="dot">.</span>Tech</div>
+  <a href="https://wa.link/c1w39c" class="nav-cta">Falar comigo</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge"><span class="pulse"></span> Aberto pra novos projetos este mês</div>
+  <h1>Seu negócio <span class="accent">merece</span> um site que fecha venda, não só que existe.</h1>
+  <p class="hero-sub">Landing pages sob medida pra cada tipo de negócio — feitas pra converter quem já tá interessado em cliente de verdade. Veja alguns exemplos abaixo.</p>
+  <div class="cta-row">
+    <a href="https://wa.link/c1w39c" class="btn-dark">Quero um orçamento</a>
+    <span class="btn-note">Resposta em até 24h</span>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat">
+      <div class="stat-num">3</div>
+      <div class="stat-label">nichos diferentes já atendidos</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">responsivo — funciona no celular</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">~5 dias</div>
+      <div class="stat-label">prazo médio de entrega</div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="section-head">
+    <div>
+      <div class="section-tag">Portfólio</div>
+      <div class="section-title">Alguns exemplos</div>
+    </div>
+  </div>
+  <div class="project-grid">
+    <a href="lp-personal-trainer.html" class="project-card">
+      <div class="project-preview trainer">
+        <div class="preview-tag">Fitness</div>
+        <div class="preview-mock"></div>
+      </div>
+      <div class="project-body">
+        <div class="project-niche">Personal trainer</div>
+        <div class="project-name">Bruto Personal</div>
+        <div class="project-desc">Página de captação de aluno com planos e CTA direto pro WhatsApp.</div>
+        <div class="project-link">Ver ao vivo →</div>
+      </div>
+    </a>
+    <a href="lp-psicologo.html" class="project-card">
+      <div class="project-preview psico">
+        <div class="preview-tag">Saúde mental</div>
+        <div class="preview-mock"></div>
+      </div>
+      <div class="project-body">
+        <div class="project-niche">Psicólogo(a)</div>
+        <div class="project-name">Espaço Escuta</div>
+        <div class="project-desc">Tom acolhedor, focado em transmitir confiança antes da primeira sessão.</div>
+        <div class="project-link">Ver ao vivo →</div>
+      </div>
+    </a>
+    <a href="lp-nail-designer.html" class="project-card">
+      <div class="project-preview nails">
+        <div class="preview-tag">Beleza</div>
+        <div class="preview-mock"></div>
+      </div>
+      <div class="project-body">
+        <div class="project-niche">Designer de unhas</div>
+        <div class="project-name">Studio Mia</div>
+        <div class="project-desc">Visual e menu de serviços pensados pra fechar agendamento pelo Instagram.</div>
+        <div class="project-link">Ver ao vivo →</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <div>
+      <div class="section-tag">Como funciona</div>
+      <div class="section-title">Do primeiro contato ao site no ar</div>
+    </div>
+  </div>
+  <div class="process-list">
+    <div class="process-item">
+      <div class="process-num">1</div>
+      <div>
+        <div class="process-title">Conversa rápida</div>
+        <div class="process-desc">Entendo seu negócio, seu público e o que você quer que o site faça (agendar, vender, captar contato).</div>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="process-num">2</div>
+      <div>
+        <div class="process-title">Proposta e prazo</div>
+        <div class="process-desc">Você recebe valor fechado e prazo de entrega antes de qualquer compromisso.</div>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="process-num">3</div>
+      <div>
+        <div class="process-title">Produção</div>
+        <div class="process-desc">Construo o site já pensando em quem vai visitar pelo celular — a maioria dos seus clientes vai chegar por lá.</div>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="process-num">4</div>
+      <div>
+        <div class="process-title">No ar</div>
+        <div class="process-desc">Site publicado com seu domínio (ou um link pronto pra usar), já com botão de contato/agendamento configurado.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="final-cta" id="contato">
+  <h2>Vamos colocar seu negócio online?</h2>
+  <p>Me chama e conta um pouco sobre o que você precisa.</p>
+  <a href="https://wa.link/c1w39c" class="btn-lime">Chamar no WhatsApp</a>
+</div>
+
+<footer>
+  Sites sob medida para pequenos negócios
+</footer>
+
+</body>
+</html>
